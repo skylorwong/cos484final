@@ -84,5 +84,13 @@ LLM_PRETOKENIZERS = {
         ),
         ByteLevel(add_prefix_space=False, trim_offsets=True, use_regex=False),
     ]),
-    'claude': ByteLevel(add_prefix_space=False, trim_offsets=True, use_regex=True)
+    'claude': ByteLevel(add_prefix_space=False, trim_offsets=True, use_regex=True),
+    'olmo2': pre_tokenizers.Sequence([
+        Split(
+            pattern=Regex("(?i:'s|'t|'re|'ve|'m|'ll|'d)|[^\\r\\n\\p{L}\\p{N}]?\\p{L}+|\\p{N}{1,3}| ?[^\\s\\p{L}\\p{N}]+[\\r\\n]*|\\s*[\\r\\n]+|\\s+(?!\\S)|\\s+"),
+            behavior='removed',
+            invert=True
+        ),
+        ByteLevel(add_prefix_space=False, trim_offsets=True, use_regex=False)
+    ]),
 }
